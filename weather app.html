@@ -1,0 +1,63 @@
+# Weather App
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #00aaff, yellow);
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+        
+        .square {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to right, #00aaff, #0044cc);
+            margin: 20px auto;
+        }
+        .circle {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(to right, #00aaff, #0044cc);
+            border-radius: 50%;
+            margin: 20px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Weather App</h1>
+    <div class="square"></div>
+    <div class="circle"></div>
+    <div class="square"></div>
+    <div class="circle"></div>
+    <div class="square"></div>
+
+    <input type="text" id="location" placeholder="Enter location">
+    <button onclick="fetchWeather()">Get Weather</button>
+    <div id="weather"></div>
+
+    <script>
+        async function fetchWeather() {
+            const location = document.getElementById('location').value;
+            const apiKey = 'YOUR_API_KEY';
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`);
+            const data = await response.json();
+            if (data.cod === 200) {
+                document.getElementById('weather').innerHTML = `
+                    <h2>Weather in ${data.name}</h2>
+                    <p>Temperature: ${data.main.temp} °C</p>
+                    <p>Conditions: ${data.weather[0].description}</p>
+                `;
+            } else {
+                document.getElementById('weather').innerHTML = `<p>Location not found</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
